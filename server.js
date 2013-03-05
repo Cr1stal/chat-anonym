@@ -7,6 +7,7 @@ io.configure(function () {
 var fs = require('fs');
 var room_number = 1;
 var port = process.env.PORT | 4000;
+console.log(port);
 httpd.listen(port);
 
 function handler(req, res) {
