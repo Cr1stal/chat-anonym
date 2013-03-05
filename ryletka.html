@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>Анонимный чат</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/bootstrap.js"></script>
+      <style>
+
+	#chat_text_field /* Стили для текстового поля */
+	{
+	  overflow:auto; /* Отображается полоса прокрутки, когда высота контента > высоты текстового поля */
+	  border:1px solid #999;
+	  -webkit-border-radius: 5px 5px 5px 5px;
+	  -moz-border-radius: 5px 5px 5px 5px;
+	  border-radius: 5px 5px 5px 5px;
+	  padding:3px;
+	  background-color:#CCC;
+	}
+      </style>
+</head>
+<body>
+  <script src="http://localhost:4000/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    var messagesElement = null;
+    var lastMessageElement = null;
+    function addMessage(message) {
+      var newMessageElement = document.createElement('div');
+      var newMessageText = document.createTextNode(message);
+      newMessageElement.appendChild(newMessageText);
+      messagesElement.insertBefore(newMessageElement, lastMessageElement);
+      lastMessageElement = newMessageElement;
+    }
+    var socket = io.connect('http://localhost:4000');
+    socket.emit('login');
+    socket.on('serverMessage', function(content) {
+	addMessage(content);
+    });
+
+    $(function(){
+	messagesElement = document.getElementById('chat_text_field');
+	lastMessageElement = null;
+
+
+
+	$('#send_button').on('click', function(){
+	  var inputElement = document.getElementById('appendedInputButtons');
+	  socket.emit('clientMessage', inputElement.value);
+	  inputElement.value = '';
+
+	  });
+    });
+</script>
+
+<!--Текстовое поле чата-->
+<div id="chat_text_field" style="height:400px;"></div>
+<div class="row" style="margin-top:30px">
+  <div class="span12 offset1">
+    <button class="btn" type="button">Жалоба</button>
+    <button class="btn" type="button">Смайлы</button>
+    <button class="btn" type="button">Выбор темы разговора</button>
+    <a class="btn" href="#" style="margin-left:1100px">Перейти в видео чат</a>
+  </div>
+</div>
+<div class="input-append" style="margin-top:5px">
+  <button class="btn btn-large btn-primary" type="button" style="margin-right:35px">Отключится</button>
+  <input class="span12"  id="appendedInputButtons" type="text" style="height:35px">
+  <button class="btn btn-large btn-primary" type="button" id="send_button" style="margin-left:35px">Отправить</button>
+
+  </div>
+</div>
+</body>
+</html>
