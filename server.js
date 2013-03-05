@@ -2,8 +2,8 @@ var httpd = require('http').createServer(handler);
 var io = require('socket.io').listen(httpd);
 var fs = require('fs');
 var room_number = 1;
-
-httpd.listen(4000);
+var port = process.env.PORT | 4000;
+httpd.listen(port);
 
 function handler(req, res) {
   fs.readFile(__dirname + '/index.html',
