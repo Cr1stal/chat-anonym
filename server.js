@@ -1,5 +1,9 @@
 var httpd = require('http').createServer(handler);
 var io = require('socket.io').listen(httpd);
+io.configure(function () { 
+    io.set("transports", ["xhr-polling"]); 
+      io.set("polling duration", 10); 
+});
 var fs = require('fs');
 var room_number = 1;
 var port = process.env.PORT | 4000;
