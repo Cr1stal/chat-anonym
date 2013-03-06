@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.emotions.js"></script>
       <style>
 
 	#chat_text_field /* Стили для текстового поля */
@@ -27,7 +28,8 @@
     function addMessage(message) {
       var newMessageElement = document.createElement('div');
       var newMessageText = document.createTextNode(message);
-      newMessageElement.appendChild(newMessageText);
+      newMessageText = $(newMessageElement).text(message).emotions();
+      //newMessageElement.appendChild(newMessageText).emotions();
       messagesElement.insertBefore(newMessageElement, lastMessageElement);
       lastMessageElement = newMessageElement;
     }
@@ -49,6 +51,14 @@
 	  inputElement.value = '';
 
 	  });
+	$('#cancel_button').on('click', function(){
+	  document.location.href = '/index.html';
+	  });
+
+	$('#theme_select_button').on('click', function(){
+	  var value = $('#theme option:selected').text();
+	 socket.emit('clientMessage', "Аноним предлагает поговорить на тему " + value); 
+	  });
     });
 </script>
 
@@ -58,12 +68,21 @@
   <div class="span12 offset1">
     <button class="btn" type="button">Жалоба</button>
     <button class="btn" type="button">Смайлы</button>
-    <button class="btn" type="button">Выбор темы разговора</button>
+    <select id="theme">
+      <option>Природа</option>
+      <option>Танки</option>
+      <option>Машины</option>
+      <option>Девочки</option>
+      <option>Скульптура</option>
+      <option>Алгебра</option>
+    </select>
+    <button class="btn" id="theme_select_button" type="button">Выбор темы разговора</button>
+
     <a class="btn" href="#" style="margin-left:1100px">Перейти в видео чат</a>
   </div>
 </div>
 <div class="input-append" style="margin-top:5px">
-  <button class="btn btn-large btn-primary" type="button" style="margin-right:35px">Отключится</button>
+  <button class="btn btn-large btn-primary" id="cancel_button" type="button" style="margin-right:35px">Отключится</button>
   <input class="span12"  id="appendedInputButtons" type="text" style="height:35px">
   <button class="btn btn-large btn-primary" type="button" id="send_button" style="margin-left:35px">Отправить</button>
 

@@ -34,7 +34,8 @@ io.sockets.on('connection', function(socket) {
 	r_number = x;
       }
     }
-    socket.broadcast.to(r_number.substring(1)).emit('serverMessage', "Аноним сказал: " + content);
+    if(r_number != null) {
+    socket.broadcast.to(r_number.substring(1)).emit('serverMessage', "Аноним сказал: " + content); }
   });
   socket.on('login', function(){
     socket.join('waiting');
@@ -59,6 +60,8 @@ io.sockets.on('connection', function(socket) {
         r_number = x;
       }
     }
+  if(r_number != null) {
     socket.broadcast.to(r_number.substring(1)).emit('serverMessage', "Аноним вышел.");
+  }
   });
 });
