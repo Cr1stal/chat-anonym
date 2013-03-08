@@ -32,7 +32,7 @@
       </style>
 </head>
 <body>
-  <script src="http://localhost:4000/socket.io/socket.io.js"></script>
+  <script src="http://62.76.176.169:4000/socket.io/socket.io.js"></script>
   <script type="text/javascript">
     var messagesElement = null;
     var lastMessageElement = null;
@@ -48,7 +48,7 @@
       messagesElement.insertBefore(newMessageElement, lastMessageElement);
       lastMessageElement = newMessageElement;
     }
-    var socket = io.connect('http://localhost:4000');
+    var socket = io.connect('http://62.76.176.169:4000');
     socket.emit('login');
     socket.on('serverMessage', function(content) {
 	addMessage(content);
