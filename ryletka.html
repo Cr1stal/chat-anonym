@@ -72,7 +72,9 @@
 	  socket.disconnect();
 	  document.location.href = '/index.html';
 	  });
-
+	$(window).bind("beforeunload", function() { 
+	  socket.disconnect();       
+	})
 	$('#theme_select_button').live('click', function(){
 	  var value = $('#theme option:selected').text();
 	 socket.emit('clientThemeMessage', "поговорить на тему " + value); 
