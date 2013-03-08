@@ -69,7 +69,7 @@
 
 	  });
 	$('#cancel_button').live('click', function(){
-	  socket.emit('closeConnect');
+	  socket.disconnect();
 	  document.location.href = '/index.html';
 	  });
 
