@@ -36,6 +36,7 @@
   <script type="text/javascript">
     var messagesElement = null;
     var lastMessageElement = null;
+    var may_write = false;
     function addMessage(message) {
       var newMessageElement = document.createElement('div');
       var newMessageText = document.createTextNode(message);
@@ -50,21 +51,35 @@
     }
     var socket = io.connect('http://62.76.176.169:4000');
     socket.emit('login');
-    socket.on('serverMessage', function(content) {
+    socket.on('serverMessageConnect', function(){
+	may_write = true;
+    });
+
+socket.on('serverMessage', function(content) {
+	if(may_write) {
 	addMessage(content);
+	}
     });
     socket.on('serverThemeMessage', function(content) {
+	if(may_write) {
 	addMessage(content);
+	}
+    });
+    socket.on('serverMessageDisconnect', function(content) {
+	may_write = false;
+	addMessage(content);
+	$(messagesElement).prepend('<a href="ryletka.html">Найти новый чат?</a>');
     });
     $(function(){
 	messagesElement = document.getElementById('chat_text_field');
 	lastMessageElement = null;
 
 	$('#send_button').live('click', function(){
-	  var inputElement = document.getElementById('appendedInputButtons');
-	  socket.emit('clientMessage', inputElement.value);
-	  inputElement.value = '';
-
+	  if(may_write){
+	    var inputElement = document.getElementById('appendedInputButtons');
+	    socket.emit('clientMessage', inputElement.value);
+	    inputElement.value = '';
+	  }
 	  });
 	$('#cancel_button').live('click', function(){
 	  socket.disconnect();

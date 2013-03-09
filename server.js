@@ -59,6 +59,7 @@ io.sockets.on('connection', function(socket) {
 	client_size[i]['room'] = room_number.toString();
 	client_size[i].join(room_number.toString());
 	client_size[i].emit('serverMessage', 'Аноним присоединился к чату');
+	client_size[i].emit('serverMessageConnect');
       }
       room_number += 1;
     }
@@ -74,20 +75,7 @@ io.sockets.on('connection', function(socket) {
       }
     }
   if(r_number != null) {
-    socket.broadcast.to(r_number.substring(1)).emit('serverMessage', "Аноним вышел.");
-  }
-  });
-  socket.on('closeConnect', function() {
-    var room = io.sockets.manager.roomClients[socket.id];
-    var r_number = null;
-    for (x in room)
-    {
-      if(x != '') {
-        r_number = x;
-      }
-    }
-  if(r_number != null) {
-    socket.broadcast.to(r_number.substring(1)).emit('serverMessage', "Аноним вышел.");
+    socket.broadcast.to(r_number.substring(1)).emit('serverMessageDisconnect', "Аноним вышел.");
   }
   });
 });
