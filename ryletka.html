@@ -63,7 +63,7 @@ socket.on('serverMessage', function(content) {
     socket.on('serverMessageDisconnect', function(content) {
 	may_write = false;
 	addMessage(content);
-	$(messagesElement).prepend('<a href="ryletka.html">Найти новый чат?</a>');
+	$(messagesElement).append('<a href="ryletka.html">Найти новый чат?</a>');
     });
     $(function(){
 	messagesElement = document.getElementById('chat_text_field');
