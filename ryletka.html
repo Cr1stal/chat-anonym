@@ -41,12 +41,7 @@
       var newMessageElement = document.createElement('div');
       var newMessageText = document.createTextNode(message);
       newMessageText = $(newMessageElement).text(message).emotions();
-      if(lastMessageElement == null){
-	messagesElement.insertBefore(newMessageElement, lastMessageElement);
-      } else {
-	messagesElement.insertBefore(newMessageElement, lastMessageElement.nextSibling);
-      }
-      messagesElement.insertBefore(newMessageElement, lastMessageElement);
+      $(messagesElement).append(newMessageElement);
       lastMessageElement = newMessageElement;
     }
     var socket = io.connect('http://62.76.176.169:4000');
