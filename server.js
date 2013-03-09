@@ -58,8 +58,8 @@ io.sockets.on('connection', function(socket) {
 	client_size[i].leave('waiting');
 	client_size[i]['room'] = room_number.toString();
 	client_size[i].join(room_number.toString());
-	client_size[i].emit('serverMessage', 'Аноним присоединился к чату');
 	client_size[i].emit('serverMessageConnect');
+	client_size[i].emit('serverMessage', 'Аноним присоединился к чату');
       }
       room_number += 1;
     }
